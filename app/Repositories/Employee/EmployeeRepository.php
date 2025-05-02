@@ -6,14 +6,14 @@ namespace App\Repositories\Employee;
 
 use App\Models\Employee;
 use App\Repositories\Contracts\EmployeeRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class EmployeeRepository implements EmployeeRepositoryInterface
 {
-    public function all(): Collection
+    public function all(): LengthAwarePaginator
     {
-        return Employee::all();
+        return Employee::paginate(5);
     }
 
     public function store(array $data): Employee

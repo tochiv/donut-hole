@@ -6,15 +6,15 @@ namespace App\Repositories\Department;
 
 use App\Models\Department;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DepartmentRepository implements DepartmentRepositoryInterface
 {
-    public function all(): Collection
+    public function all(): LengthAwarePaginator
     {
         return Department::withCount('employees')
             ->withMax('employees', 'salary')
-            ->get();
+            ->paginate(5);
     }
 
     public function store(array $data): Department

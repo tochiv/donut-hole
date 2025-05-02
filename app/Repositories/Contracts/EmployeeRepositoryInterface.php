@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Contracts;
 
 use App\Models\Employee;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface EmployeeRepositoryInterface
 {
-    public function all(): Collection;
+    public function all(): LengthAwarePaginator;
 
     public function store(array $data): Employee;
 

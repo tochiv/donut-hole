@@ -10,6 +10,7 @@ use App\Http\Resources\Department\DepartmentResource;
 use App\Http\Resources\Department\GetDepartmentEmployeesResource;
 use App\Repositories\Contracts\DepartmentRepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DepartmentController extends Controller
 {
@@ -25,7 +26,12 @@ class DepartmentController extends Controller
         $departments = $this->departmentRepository->all();
 
         return response()->json([
-            'data' => GetDepartmentEmployeesResource::collection($departments)
+            new LengthAwarePaginator(
+                GetDepartmentEmployeesResource::collection($departments),
+                $departments->total(),
+                $departments->perPage(),
+                $departments->currentPage()
+            )
         ]);
     }
 

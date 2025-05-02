@@ -9,6 +9,7 @@ use App\Http\Requests\Employee\EmployeeRequest;
 use App\Http\Resources\Employee\EmployeeResource;
 use App\Repositories\Contracts\EmployeeRepositoryInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EmployeeController extends Controller
 {
@@ -24,7 +25,12 @@ class EmployeeController extends Controller
         $employees = $this->employeeRepository->all();
 
         return response()->json([
-            'data' => EmployeeResource::collection($employees),
+            new LengthAwarePaginator(
+                EmployeeResource::collection($employees),
+                $employees->total(),
+                $employees->perPage(),
+                $employees->currentPage()
+            )
         ]);
     }
 
